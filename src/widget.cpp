@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "container.h"
 #include "screen.h"
+#include "ttk.h"
 #include <stdio.h>
 
 Widget::Widget() {
@@ -45,6 +46,15 @@ bool Widget::fills_container() {
 
 Widget* Widget::set_fill_container(bool f) {
   this->flags = ((this->flags) & (~4)) | (f<<2);
+  return this;
+}
+
+bool Widget::has_focus() {
+  return (this->flags) & (1<<3);
+}
+
+Widget* Widget::set_has_focus(bool f) {
+  this->flags = ((this->flags) & (~8)) | (f<<3);
   return this;
 }
 
@@ -94,4 +104,11 @@ u16 Widget::calculate_xposition() {
 
 u16 Widget::calculate_yposition() {
   return this->ypos;
+}
+
+void Widget::button_press(ButtonPress bp) {
+ if (bp == SELECT) {
+ } else {
+   this->parent->button_press(bp);
+ } 
 }

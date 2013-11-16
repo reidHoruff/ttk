@@ -1,7 +1,7 @@
 #include "screen.h"
 #include <stdio.h>
 #include "ttk.h"
-#include "virtual.h"
+#include "virtual/virtual.h"
 #include <cairo.h>
 
 u16 screen::height = 240;

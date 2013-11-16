@@ -18,7 +18,10 @@ class Widget {
     virtual u16 calculate_height() = 0;
     virtual u16 calculate_xposition();
     virtual u16 calculate_yposition();
+    virtual void button_press(ButtonPress bp);
 
+  /* getters / setters */
+  public:
     bool visible();
     Widget* set_visible(bool v);
 
@@ -28,8 +31,11 @@ class Widget {
     bool fills_container();
     Widget* set_fill_container(bool f);
 
-  public:
+    bool has_focus();
+    Widget* set_has_focus(bool f);
 
+    /* attributes */
+  public:
     Container *parent;
     u16 xpos, ypos, index, rx, ry, rw, rh;
 
@@ -38,6 +44,7 @@ class Widget {
      * 0 - visible
      * 1 - enabled
      * 2 - fill container
+     * 3 - has focus
      */
     u8 flags;
 };

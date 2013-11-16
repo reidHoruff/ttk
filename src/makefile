@@ -1,3 +1,9 @@
+CC = g++
+
+VIRT = virtual/main.cpp virtual/virtual.cpp
+WIDGETS = widgets/button.cpp widgets/vertcontainer.cpp  
+CORE = screen.cpp graphics.cpp widget.cpp ttk.cpp container.cpp
+
 all:
-	g++ `pkg-config --cflags gtk+-3.0` -o ttk_vir main.cpp screen.cpp virtual.cpp graphics.cpp widget.cpp ttk.cpp container.cpp button.cpp `pkg-config --libs gtk+-3.0`
+	$(CC) `pkg-config --cflags gtk+-3.0` -o ttk_vir $(CORE) $(WIDGETS) $(VIRT) `pkg-config --libs gtk+-3.0` 
 

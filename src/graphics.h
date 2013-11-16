@@ -17,13 +17,17 @@ namespace gl {
 
   void set_color(u16 color);
   void put_pixel(u16 x, u16 y);
-  void print_str(char *text, u16 x, u16 y);
-  void print_str_b(char *text, u16 x, u16 y);
+  void print_str(const char *text, u16 x, u16 y);
+  void print_str_b(const char *text, u16 x, u16 y);
   void draw_rect(u16 x, u16 y, u16 w, u16 h);
   void fill_rect(u16 x, u16 y, u16 w, u16 h);
   void draw_line(u16 x1, u16 y1, u16 x2, u16 y2);
   void draw_line_hor(u16 x, u16 y, u16 l);
   void draw_line_vert(u16 x, u16 y, u16 l);
+
+  /* hgiher level graphic drawing */
+
+  void draw_3d_rect(u16 x, u16 y, u16 w, u16 h);
 }
 
 #endif

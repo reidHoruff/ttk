@@ -323,7 +323,7 @@ void gl::draw_line_vert(u16 x, u16 y, u16 l) {
 }
 
 /* have fun with this one */
-void gl::print_str(char *text, u16 x, u16 y) {
+void gl::print_str(const char *text, u16 x, u16 y) {
   u8 si = 0;
   while (text[si]) {
     char c = text[si];
@@ -346,7 +346,21 @@ void gl::print_str(char *text, u16 x, u16 y) {
   screen::draw();
 }
 
-void gl::print_str_b(char *text, u16 x, u16 y) {
+void gl::print_str_b(const char *text, u16 x, u16 y) {
   gl::print_str(text, x, y);
   gl::print_str(text, x+1, y);
+}
+
+void gl::draw_3d_rect(u16 x, u16 y, u16 w, u16 h) {
+  gl::set_color(BLACK);
+  gl::draw_line_hor(x, y+h-1, w);
+  gl::draw_line_vert(x+w-1, y, h);
+
+  gl::set_color(WHITE);
+  gl::draw_line_hor(x+1, y+1, w-3);
+  gl::draw_line_vert(x+1, y+1, h-3);
+
+  gl::set_color(DARK_GREY);
+  gl::draw_line_hor(x+1, y+h-2, w-2);
+  gl::draw_line_vert(x+w-2, y+1, h-2);
 }

@@ -1,11 +1,14 @@
 #include <cairo.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include "screen.h"
+
 #include "virtual.h"
-#include "graphics.h"
-#include "container.h"
-#include "button.h"
+#include "../screen.h"
+#include "../graphics.h"
+#include "../container.h"
+#include "../ttk.h"
+#include "../widgets/vertcontainer.h"
+#include "../widgets/button.h"
 
 /*
  * this is all hacky and copied form the internet.
@@ -40,7 +43,7 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
 static void do_drawing(cairo_t *cr)
 {
   virt::cr = cr;
-  root_container->render();
+  ttk::root->render();
   printf("drawing\n");
 }
 
@@ -48,23 +51,23 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 {
   switch (event->keyval) {
     case 65362:
-      //up
       printf("up\n");
+      ttk::button_press(UP);
       break;
 
     case 65364:
-      //down
       printf("down\n");
+      ttk::button_press(DOWN);
       break;
 
     case 65363:
-      //right
       printf("right\n");
+      ttk::button_press(RIGHT);
       break;
 
     case 65361:
       printf("left\n");
-      //left
+      ttk::button_press(LEFT);
       break;
   }
   return FALSE; 
@@ -81,6 +84,7 @@ int main (int argc, char *argv[])
     ->add(new Button("hello2"))
     ->add((new Button("this is a really long picec of text!"))->set_fill_container(true))
     ->add(new Button("# Start"));
+  ttk::set_root(root_container);
   GtkWidget *window, *darea;
 
   gtk_init(&argc, &argv);
