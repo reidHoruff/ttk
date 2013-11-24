@@ -1,8 +1,10 @@
 #include "container.h"
 #include "widget.h"
+#include "graphics.h"
 #include "ttk.h"
 
 Container::Container() : Widget() {
+  this->set_fill_container(true);
   this->children = new Widget*[DEFAULT_CONTAINED_ELEMENTS];
   this->num_children = 0;
 }
@@ -13,8 +15,18 @@ void Container::render() {
   this->xposition();
   this->yposition();
 
+  gl::set_color(BACKGROUND);
+  gl::fill_rect(this->rx, this->ry, this->rw, this->rh);
+
   for(u16 i = 0; i < this->num_children; i++) {
     this->children[i]->render();
+  }
+}
+
+
+void Container::unrender() {
+  for(u16 i = 0; i < this->num_children; i++) {
+    this->children[i]->unrender();
   }
 }
 
@@ -35,11 +47,11 @@ u16 Container::child_width(Widget *child) {
 }
 
 u16 Container::child_xpos(Widget *child) {
-  return this->rx + child->xpos;
+  return this->rx;
 }
 
 u16 Container::child_ypos(Widget *child) {
-  return this->ry + child->ypos;
+  return this->ry;
 }
 
 u16 Container::calculate_width() { return 0; }

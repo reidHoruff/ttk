@@ -8,13 +8,16 @@
 #include "../container.h"
 #include "../ttk.h"
 #include "../widgets/vertcontainer.h"
+#include "../widgets/horcontainer.h"
 #include "../widgets/button.h"
+#include "../widgets/dropdown.h"
 
 /*
  * this is all hacky and copied form the internet.
  * im not really concerning myself with this currently as long as it works
  */
 
+GtkWidget *window, *darea;
 
 Container *root_container;
 
@@ -40,15 +43,22 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
   return FALSE;
 }
 
+
+bool root_rendered = false;
+
 static void do_drawing(cairo_t *cr)
 {
   virt::cr = cr;
-  ttk::root->render();
-  printf("drawing\n");
+  if (!root_rendered) {
+    ttk::root->render();
+  //  root_rendered = true;
+  }
 }
 
 gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
+  //printf("key: %d\n", event->keyval);
+
   switch (event->keyval) {
     case 65362:
       printf("up\n");
@@ -69,23 +79,52 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
       printf("left\n");
       ttk::button_press(LEFT);
       break;
+
+    case 65293:
+      printf("select\n");
+      ttk::button_press(SELECT);
+      break;
   }
+
+  gtk_widget_queue_draw_area(window, 0, 0, screen::width, screen::height);
+
   return FALSE; 
 }
 
 int main (int argc, char *argv[])
 {
+  const char *dd_text[] = {
+    "foo",
+    "bar",
+  };
+
   root_container = new VerticalContainer();
+
+  Container *foo = new VerticalContainer();
+  foo
+    ->add(new Button("foo1"))
+    ->add(new Button("foo2"))
+    ->add(new Dropdown(dd_text, 2))
+    ;
+
+  Container *p_container = new HorizontalContainer();
+  p_container
+    ->add(new Button("world1"))
+    ->add(new Button("world2"))
+    ->add(new Button("world2"))
+    ->add(new Button("world2"))
+    ->add(foo)
+    ->add(new Button("world2"))
+    ;
+
+
   root_container
-    ->add((new Button("hello"))->set_fill_container(true))
+    ->add(new Button("hello1"))
     ->add(new Button("hello2"))
-    ->add(new Button("hello2"))
-    ->add(new Button("hello2"))
-    ->add(new Button("hello2"))
-    ->add((new Button("this is a really long picec of text!"))->set_fill_container(true))
-    ->add(new Button("# Start"));
+    ->add(p_container)
+    ;
+
   ttk::set_root(root_container);
-  GtkWidget *window, *darea;
 
   gtk_init(&argc, &argv);
 

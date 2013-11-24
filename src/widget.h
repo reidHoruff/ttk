@@ -8,36 +8,42 @@ class Container;
 class Widget {
   public:
     Widget();
-    Widget(u16 x, u16 y);
     virtual void render();
+    virtual void unrender();
     virtual u16 width();
     virtual u16 height();
     virtual u16 xposition();
     virtual u16 yposition();
-    virtual u16 calculate_width() = 0;
-    virtual u16 calculate_height() = 0;
+    virtual u16 calculate_width();
+    virtual u16 calculate_height();
     virtual u16 calculate_xposition();
     virtual u16 calculate_yposition();
-    virtual void button_press(ButtonPress bp);
+
+    /*
+     * up down does not refer to the button being pressed.
+     * if refers to which way up the tree the call is travelling
+     */
+    virtual bool button_press_up(ButtonPress bp, Widget *child);
+    virtual void button_press_down(ButtonPress bp);
 
   /* getters / setters */
   public:
-    bool visible();
+    virtual bool visible();
     Widget* set_visible(bool v);
 
-    bool is_enabled();
+    virtual bool is_enabled();
     Widget* set_enabled(bool e);
 
-    bool fills_container();
+    virtual bool fills_container();
     Widget* set_fill_container(bool f);
 
-    bool has_focus();
+    virtual bool has_focus();
     Widget* set_has_focus(bool f);
 
     /* attributes */
   public:
     Container *parent;
-    u16 xpos, ypos, index, rx, ry, rw, rh;
+    u16 index, rx, ry, rw, rh;
 
   protected:
     /*

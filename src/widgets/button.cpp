@@ -1,11 +1,9 @@
 #include "button.h"
 #include "../graphics.h"
+#include "../container.h"
+#include "../ttk.h"
 
 Button::Button(const char *text) : Widget() {
-  this->text = text;
-}
-
-Button::Button(const char *text, u16 x, u16 y) : Widget(x, y) {
   this->text = text;
 }
 
@@ -24,6 +22,16 @@ void Button::render() {
 
   gl::set_color(BLACK);
   gl::print_str(this->text, this->rx + (this->rw-text_width)/2, this->ry + (this->rh-CHAR_HEIGHT)/2);
+
+  if (this->has_focus()) {
+    gl::set_color(BLUE);
+    gl::draw_rect(rx, ry, rw, rh);
+  }
+}
+
+void Button::unrender() {
+  gl::set_color(BACKGROUND);
+  gl::fill_rect(this->rx, this->ry, this->rw, this->rh);
 }
 
 u16 Button::calculate_width() {
@@ -39,3 +47,4 @@ u16 Button::text_len() {
   while (this->text[len]) {len++;}
   return len;
 }
+

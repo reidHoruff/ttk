@@ -6,20 +6,16 @@
 
 Widget::Widget() {
   this->parent = NULL;
-  this->xpos = 0;
-  this->ypos = 0;
   this->index = 0;
-}
-
-Widget::Widget(u16 x, u16 y) {
-  this->parent = NULL;
-  this->xpos = x;
-  this->ypos = y;
-  this->index = 0;
+  this->flags = 0;
 }
 
 void Widget::render() {
   printf("render needs to be overwritten\n");
+}
+
+void Widget::unrender() {
+  printf("unrender needs to be overwritten\n");
 }
 
 bool Widget::visible() {
@@ -27,7 +23,11 @@ bool Widget::visible() {
 }
 
 Widget* Widget::set_visible(bool v) {
-  this->flags = ((this->flags) & (~1)) | (v&1);
+  if (v) {
+    this->flags |= 1;
+  } else {
+    this->flags &= ~((u8)1);
+  }
   return this;
 }
 
@@ -99,16 +99,26 @@ u16 Widget::yposition() {
 }
 
 u16 Widget::calculate_xposition() {
-  return this->xpos;
+  return 0;
 }
 
 u16 Widget::calculate_yposition() {
-  return this->ypos;
+  return 0;
 }
 
-void Widget::button_press(ButtonPress bp) {
- if (bp == SELECT) {
- } else {
-   this->parent->button_press(bp);
- } 
+/* button press handeling is for leafs */
+bool Widget::button_press_up(ButtonPress bp, Widget *child) {
+  if (bp == SELECT) {
+    /* do some action; highlighted widget has been 'selected' */
+  } else {
+    this->parent->button_press_up(bp, this);
+  } 
+  return true;
 }
+
+void Widget::button_press_down(ButtonPress bp) {
+  ttk::set_focused_widget(this);
+}
+
+u16 Widget::calculate_width() { return 0; }
+u16 Widget::calculate_height() { return 0; }

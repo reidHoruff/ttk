@@ -2,12 +2,16 @@
 #define __graphics_h__
 
 #define BLACK 0
-#define WHITE 0xFFF
+#define WHITE 0xFFFF
 #define RED 0xF00
 #define GREEN 0x0F0
 #define BLUE 0x00F
 #define GREY 0xccc
 #define DARK_GREY 0xaaa
+
+
+/* color theme */
+#include "theme.h"
 
 #define CHAR_HEIGHT 7
 #define CHAR_WIDTH 5
@@ -26,7 +30,6 @@ namespace gl {
   void draw_line_vert(u16 x, u16 y, u16 l);
 
   /* hgiher level graphic drawing */
-
   void draw_3d_rect(u16 x, u16 y, u16 w, u16 h);
 }
 

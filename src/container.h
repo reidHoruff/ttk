@@ -10,6 +10,7 @@ class Container : public Widget {
   public:
     Container();
     virtual void render();
+    virtual void unrender();
     virtual Container* add(Widget*);
     virtual u16 child_height(Widget*); 
     virtual u16 child_width(Widget*); 

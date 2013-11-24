@@ -1,11 +1,11 @@
-#ifndef _vertcontainer_h_
-#define _vertcontainer_h_
+#ifndef _horcontainer_h_
+#define _horcontainer_h_
 
 #include "../ttk.h"
 #include "../widget.h"
 #include "../container.h"
 
-class VerticalContainer : public Container {
+class HorizontalContainer : public Container {
   public:
     virtual u16 child_height(Widget*); 
     virtual u16 child_width(Widget*); 

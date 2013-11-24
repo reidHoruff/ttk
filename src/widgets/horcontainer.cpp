@@ -1,35 +1,36 @@
-#include "vertcontainer.h"
+#include "horcontainer.h"
 #include "../widget.h"
 #include "../ttk.h"
 
-u16 VerticalContainer::child_height(Widget *child) {
-  return this->rh / this->num_children;
+u16 HorizontalContainer::child_height(Widget *child) {
+  return this->rh;
 }
 
-u16 VerticalContainer::child_width(Widget *child) {
-  return this->rw;
+u16 HorizontalContainer::child_width(Widget *child) {
+  return this->rw / this->num_children;
 }
 
-u16 VerticalContainer::child_ypos(Widget *child) {
-  u16 frame = this->rh / this->num_children;
-  return this->ry + frame*child->index + frame/2 - child->rh/2;
+u16 HorizontalContainer::child_ypos(Widget *child) {
+  return this->ry + (this->rh - child->rh)/2;
 }
 
-u16 VerticalContainer::child_xpos(Widget *child) {
-  return this->rx + (this->rw - child->rw)/2;
+u16 HorizontalContainer::child_xpos(Widget *child) {
+  u16 frame = this->rw / this->num_children;
+  return this->rx + frame*child->index + frame/2 - child->rw/2;
 }
 
 /* button press handeling is for leafs */
-bool VerticalContainer::button_press_up(ButtonPress bp, Widget *child) {
+bool HorizontalContainer::button_press_up(ButtonPress bp, Widget *child) {
+
   bool can_move = true;
   u8 next_index = 0;
   u8 rollover_index = 0;
 
-  if (bp == UP) {
+  if (bp == LEFT) {
     can_move = (child->index > 0);
     next_index = child->index - 1;
     rollover_index = this->num_children-1;
-  } else if (bp == DOWN) {
+  } else if (bp == RIGHT) {
     can_move = (child->index < this->num_children-1);
     next_index = child->index + 1;
     rollover_index = 0;
@@ -61,8 +62,8 @@ bool VerticalContainer::button_press_up(ButtonPress bp, Widget *child) {
   }
 }
 
-void VerticalContainer::button_press_down(ButtonPress bp) {
-  if (bp == UP) {
+void HorizontalContainer::button_press_down(ButtonPress bp) {
+  if (bp == RIGHT) {
     this->children[this->num_children-1]->button_press_down(bp);
   } else {
     this->children[0]->button_press_down(bp);
