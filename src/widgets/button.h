@@ -8,10 +8,12 @@
 class Button : public Widget {
   public:
     Button(const char *text);
-    Button(const char *text, u16 x, u16 y);
+
+  private:
     virtual void render();
     virtual void unrender();
 
+  public:
     virtual u16 calculate_height();
     virtual u16 calculate_width();
 

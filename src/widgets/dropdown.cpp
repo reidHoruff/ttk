@@ -8,19 +8,11 @@ Dropdown::Dropdown(const char **options, u8 l) : Widget() {
   this->options = options;
   this->len = l;
   this->pop = NULL;
+  this->selected = 0;
 }
 
 /* this context ommited in some places */
 void Dropdown::render() {
-  this->width();
-  this->height();
-  this->xposition();
-  this->yposition();
-
-  if (!pop) {
-    this->pop = new PopupMenu(this, this->options, this->len);
-  }
-
   u16 text_width = this->text_len() * 6;
 
   gl::set_color(GREY);
@@ -29,15 +21,17 @@ void Dropdown::render() {
   gl::draw_3d_rect(rx, ry, rw, rh);
 
   gl::set_color(BLACK);
-  gl::print_str(options[0], rx + (rw-text_width)/2, ry + (rh-CHAR_HEIGHT)/2);
+  gl::print_str(options[this->selected], rx + (rw-text_width)/2, ry + (rh-CHAR_HEIGHT)/2);
+  gl::draw_glyph(rx+rw-GLYPH_WIDTH-SELECT_H_MARGIN, ry + (rh-GLYPH_HEIGHT)/2, gl::DOWN_ARROW);
 
   if (this->has_focus()) {
     gl::set_color(BLUE);
     gl::draw_rect(rx, ry, rw, rh);
   }
 
-  if (this->pop->visible())
-    this->pop->render();
+  if (this->pop && this->pop->visible()) {
+    this->pop->request_render();
+  }
 }
 
 void Dropdown::unrender() {
@@ -58,13 +52,17 @@ u16 Dropdown::text_len() {
   return 10;
 }
 
+void Dropdown::call_home(u16 data) {
+  del(this->pop);
+  this->selected = data;
+  this->render();
+}
+
 /* button press handeling is for leafs */
-bool Dropdown::button_press_up(ButtonPress bp, Widget *child) {
- if (bp == SELECT) {
-   ttk::set_focused_widget(this->pop);
-   this->pop->set_visible(true);
- } else {
-   this->parent->button_press_up(bp, this);
- } 
- return true;
+void Dropdown::on_select() {
+  if (!this->pop) {
+    this->pop = new PopupMenu(this, this->options, this->len);
+  }
+
+  ttk::set_focused_widget(this->pop);
 }

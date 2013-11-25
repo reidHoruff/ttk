@@ -21,6 +21,9 @@ GtkWidget *window, *darea;
 
 Container *root_container;
 
+ButtonPress bp;
+bool button_pressed = false;
+
 static void do_drawing(cairo_t *);
 
 static void tran_setup(GtkWidget *win)
@@ -43,16 +46,24 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
   return FALSE;
 }
 
-
 bool root_rendered = false;
 
 static void do_drawing(cairo_t *cr)
 {
-  virt::cr = cr;
+  //log("do_draw()...\n");
   if (!root_rendered) {
-    ttk::root->render();
-  //  root_rendered = true;
+    virt::cr = cr;
+    virt::window = darea;
+    ttk::render();
+    root_rendered = true;
   }
+
+  if (button_pressed) {
+    ttk::button_press(bp);
+  }
+
+  button_pressed = false;
+  //log("do_draw() complete\n");
 }
 
 gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
@@ -61,32 +72,39 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 
   switch (event->keyval) {
     case 65362:
-      printf("up\n");
-      ttk::button_press(UP);
+//      printf("up\n");
+//      ttk::button_press(UP);
+      bp = UP;
       break;
 
     case 65364:
-      printf("down\n");
-      ttk::button_press(DOWN);
-      break;
-
-    case 65363:
-      printf("right\n");
-      ttk::button_press(RIGHT);
+//      printf("down\n");
+//      ttk::button_press(DOWN);
+      bp = DOWN;
       break;
 
     case 65361:
-      printf("left\n");
-      ttk::button_press(LEFT);
+//      printf("left\n");
+//      ttk::button_press(LEFT);
+      bp = LEFT;
+      break;
+
+    case 65363:
+//      printf("right\n");
+//      ttk::button_press(RIGHT);
+      bp = RIGHT;
       break;
 
     case 65293:
-      printf("select\n");
-      ttk::button_press(SELECT);
+//      printf("select\n");
+//      ttk::button_press(SELECT);
+      bp = SELECT;
       break;
   }
 
-  gtk_widget_queue_draw_area(window, 0, 0, screen::width, screen::height);
+  button_pressed = true;
+
+  virt::refresh();
 
   return FALSE; 
 }
@@ -96,32 +114,21 @@ int main (int argc, char *argv[])
   const char *dd_text[] = {
     "foo",
     "bar",
+    "baz",
   };
 
   root_container = new VerticalContainer();
-
-  Container *foo = new VerticalContainer();
-  foo
-    ->add(new Button("foo1"))
-    ->add(new Button("foo2"))
-    ->add(new Dropdown(dd_text, 2))
+  Container *c = new HorizontalContainer();
+  c
+    ->add(new Button("howdy"))
+    ->add(new Button("cowboy"))
     ;
-
-  Container *p_container = new HorizontalContainer();
-  p_container
-    ->add(new Button("world1"))
-    ->add(new Button("world2"))
-    ->add(new Button("world2"))
-    ->add(new Button("world2"))
-    ->add(foo)
-    ->add(new Button("world2"))
-    ;
-
 
   root_container
-    ->add(new Button("hello1"))
     ->add(new Button("hello2"))
-    ->add(p_container)
+    ->add(c)
+    ->add(new Button("hello2"))
+    ->add(new Dropdown(dd_text, 3))
     ;
 
   ttk::set_root(root_container);

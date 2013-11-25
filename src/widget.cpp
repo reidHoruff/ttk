@@ -8,55 +8,120 @@ Widget::Widget() {
   this->parent = NULL;
   this->index = 0;
   this->flags = 0;
+
+  this->set_visible(true);
+  this->set_enabled(true);
+  this->set_need_compute_render_vars(true);
 }
 
 void Widget::render() {
-  printf("render needs to be overwritten\n");
+  log("render needs to be overwritten\n");
 }
 
 void Widget::unrender() {
-  printf("unrender needs to be overwritten\n");
+  log("unrender needs to be overwritten\n");
 }
 
+void Widget::update() {
+  this->request_unrender();
+  this->request_render();
+}
+
+void Widget::request_render() {
+  if (this->visible()) {
+    //calc all rendered coords and dimensions
+    if (this->need_compute_render_vars()) {
+      this->width();
+      this->height();
+      this->xposition();
+      this->yposition();
+      this->set_need_compute_render_vars(false);
+    }
+    //render will rely on all of these
+    this->render();
+  }
+}
+
+void Widget::request_unrender() {
+  //calc all rendered coords and dimensions
+  if (this->need_compute_render_vars()) {
+    this->width();
+    this->height();
+    this->xposition();
+    this->yposition();
+    this->set_need_compute_render_vars(false);
+  }
+  //render will rely on all of these
+  this->unrender();
+}
+
+/*
+ * here comes all the getters and setters
+ */
+
+#define _SET(_field, _bit, _value)\
+  if (_value) {\
+    _field |= (1<<_bit);\
+  } else {\
+    _field &= ~(1<<_bit);\
+  }\
+
+#define _GET(_field, _bit)\
+  (_field>>_bit)&1;
+
+
+#define _VISIBLE 0
+#define _ENABLED 1
+#define _FILLS_CONTAINER 2
+#define _HAS_FOCUS 3
+#define _NEED_COMPUTE 4
+
 bool Widget::visible() {
-  return this->flags&1;
+  return _GET(this->flags, _VISIBLE);
 }
 
 Widget* Widget::set_visible(bool v) {
-  if (v) {
-    this->flags |= 1;
-  } else {
-    this->flags &= ~((u8)1);
-  }
+  _SET(this->flags, _VISIBLE, v);
   return this;
 }
 
 bool Widget::is_enabled() {
-  return (this->flags) & (1<<1);
+  return _GET(this->flags, _ENABLED);
 }
 
 Widget* Widget::set_enabled(bool e) {
-  this->flags = ((this->flags) & (~2)) | (e<<1);
+  _SET(this->flags, _ENABLED, e);
   return this;
 }
 
 bool Widget::fills_container() {
-  return (this->flags) & (1<<2);
+  return _GET(this->flags, _FILLS_CONTAINER);
 }
 
 Widget* Widget::set_fill_container(bool f) {
-  this->flags = ((this->flags) & (~4)) | (f<<2);
+  _SET(this->flags, _FILLS_CONTAINER, f);
   return this;
 }
 
 bool Widget::has_focus() {
-  return (this->flags) & (1<<3);
+  return _GET(this->flags, _HAS_FOCUS);
 }
 
 Widget* Widget::set_has_focus(bool f) {
-  this->flags = ((this->flags) & (~8)) | (f<<3);
+  _SET(this->flags, _HAS_FOCUS, f);
   return this;
 }
+
+bool Widget::need_compute_render_vars() {
+  return _GET(this->flags, _NEED_COMPUTE);
+}
+
+Widget* Widget::set_need_compute_render_vars(bool f) {
+  _SET(this->flags, _NEED_COMPUTE, f);
+  return this;
+}
+
+/* DONE! fuck that repetetive shit... */
 
 u16 Widget::height() {
   if (this->parent == NULL) {
@@ -106,10 +171,18 @@ u16 Widget::calculate_yposition() {
   return 0;
 }
 
+u16 Widget::calculate_width() {
+  return 0; 
+}
+
+u16 Widget::calculate_height() { 
+  return 0; 
+}
+
 /* button press handeling is for leafs */
 bool Widget::button_press_up(ButtonPress bp, Widget *child) {
   if (bp == SELECT) {
-    /* do some action; highlighted widget has been 'selected' */
+    this->on_select();
   } else {
     this->parent->button_press_up(bp, this);
   } 
@@ -120,5 +193,14 @@ void Widget::button_press_down(ButtonPress bp) {
   ttk::set_focused_widget(this);
 }
 
-u16 Widget::calculate_width() { return 0; }
-u16 Widget::calculate_height() { return 0; }
+void Widget::on_select() {
+  ;
+}
+
+void Widget::on_focus() {
+  ;
+}
+
+void Widget::call_home(u16 data) {
+  log("home called: %d\n", data);
+}

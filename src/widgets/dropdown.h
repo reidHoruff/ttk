@@ -16,16 +16,16 @@ class Dropdown : public Widget {
     virtual u16 calculate_height();
     virtual u16 calculate_width();
 
-    /*
-     * up down does not refer to the button being pressed.
-     * if refers to which way up the tree the call is travelling
-     */
-  virtual bool button_press_up(ButtonPress bp, Widget *child);
+    virtual void call_home(u16 data);
+
+  protected:
+    virtual void on_select();
 
   protected:
     const char **options;
     u16 text_len();
     u8 len;
+    u8 selected;
     PopupMenu *pop;
 };
 

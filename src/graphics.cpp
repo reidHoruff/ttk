@@ -285,7 +285,6 @@ void gl::fill_rect(u16 x, u16 y, u16 w, u16 h) {
       screen::put_pixel(_x, _y, gl::color);
     }
   }
-  screen::draw();
 }
 
 void gl::draw_rect(u16 x, u16 y, u16 w, u16 h) {
@@ -301,7 +300,6 @@ void gl::draw_rect(u16 x, u16 y, u16 w, u16 h) {
     screen::put_pixel(x+w-1, _y, gl::color);
     _y += 1;
   }
-  screen::draw();
 }
 
 void gl::draw_line_hor(u16 x, u16 y, u16 l) {
@@ -310,7 +308,6 @@ void gl::draw_line_hor(u16 x, u16 y, u16 l) {
     screen::put_pixel(_x, y, gl::color);
     _x += 1;
   }
-  screen::draw();
 }
 
 void gl::draw_line_vert(u16 x, u16 y, u16 l) {
@@ -319,7 +316,6 @@ void gl::draw_line_vert(u16 x, u16 y, u16 l) {
     screen::put_pixel(x, _y, gl::color);
     _y += 1;
   }
-  screen::draw();
 }
 
 /* have fun with this one */
@@ -343,7 +339,6 @@ void gl::print_str(const char *text, u16 x, u16 y) {
     si += 1;
   }
 
-  screen::draw();
 }
 
 void gl::print_str_b(const char *text, u16 x, u16 y) {
@@ -364,3 +359,65 @@ void gl::draw_3d_rect(u16 x, u16 y, u16 w, u16 h) {
   gl::draw_line_hor(x+1, y+h-2, w-2);
   gl::draw_line_vert(x+w-2, y+1, h-2);
 }
+
+void gl::draw_glyph(u16 x, u16 y, u8 *a) {
+  for (u8 _x=0; _x<7; _x++) {
+    u8 b = a[_x];
+    for (u8 _y=0; _y<8; _y++) {
+      bool draw = b & (1<<_y);
+      if (draw) {
+        gl::put_pixel(x+_x, y+_y);
+      }
+    }
+  }
+}
+
+u8 gl::UP_ARROW[] = {
+  0b00001000,
+  0b00001100,
+  0b00001110,
+  0b00001111,
+  0b00001110,
+  0b00001100,
+  0b00001000,
+};
+
+u8 gl::RIGHT_ARROW[] = {
+  0b00000000,
+  0b11111111,
+  0b01111110,
+  0b00111100,
+  0b00011000,
+  0b00000000,
+  0b00000000,
+};
+
+u8 gl::LEFT_ARROW[] = {
+  0b00000000,
+  0b00011000,
+  0b00111100,
+  0b01111110,
+  0b11111111,
+  0b00000000,
+  0b00000000,
+};
+
+u8 gl::DOWN_ARROW[] = {
+  0b00000100,
+  0b00001100,
+  0b00011100,
+  0b00111100,
+  0b00011100,
+  0b00001100,
+  0b00000100,
+};
+
+u8 gl::X[] = {
+  0b10000010,
+  0b01000100,
+  0b00101000,
+  0b00010000,
+  0b00101000,
+  0b01000100,
+  0b10000010,
+};

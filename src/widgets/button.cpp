@@ -8,11 +8,6 @@ Button::Button(const char *text) : Widget() {
 }
 
 void Button::render() {
-  this->width();
-  this->height();
-  this->xposition();
-  this->yposition();
-
   u16 text_width = this->text_len() * 6;
 
   gl::set_color(GREY);

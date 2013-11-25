@@ -6,6 +6,9 @@
 
 #ifdef VIRTUAL
 #include <stdio.h>
+#define log(fmt, ...) printf("[%s:%d:%s] ", __FILE__, __LINE__, __PRETTY_FUNCTION__);printf(fmt, ##__VA_ARGS__)
+#else
+#define log(fmt, ...)
 #endif
 
 #include <cstdint>
@@ -37,5 +40,8 @@ namespace ttk {
   void set_popup(Widget*);
   void render();
 }
+
+/* some helpers */
+#define del(x) delete x;x=NULL
 
 #endif

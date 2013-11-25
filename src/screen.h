@@ -6,6 +6,7 @@
 namespace screen {
   extern u16 width;
   extern u16 height;
+  extern u16 color;
 
   void set_color(u16 color);
   void put_pixel(u16 x, u16 y, u16 color);

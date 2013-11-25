@@ -7,9 +7,20 @@ class Container;
 
 class Widget {
   public:
+    /* do not add any other constructors */
     Widget();
+
+    virtual void update();
+    virtual void request_render();
+    virtual void request_unrender();
+
+  private:
+    /* these are to be invoked by the above methods */
     virtual void render();
     virtual void unrender();
+
+  public:
+    /* all these are for calculating positioning and size */
     virtual u16 width();
     virtual u16 height();
     virtual u16 xposition();
@@ -40,6 +51,23 @@ class Widget {
     virtual bool has_focus();
     Widget* set_has_focus(bool f);
 
+    virtual bool need_compute_render_vars();
+    Widget* set_need_compute_render_vars(bool f);
+
+    /* called when you spawn a child and he
+     * return focus to you. typically a popup
+     */
+    virtual void call_home(u16 data);
+
+  protected:
+    /* to be overwritten;
+     * called by button_press_up when the widget has 
+     * focus and is selected
+     */
+    virtual void on_select();
+    
+    virtual void on_focus();
+
     /* attributes */
   public:
     Container *parent;
@@ -51,6 +79,7 @@ class Widget {
      * 1 - enabled
      * 2 - fill container
      * 3 - has focus
+     * 4 - need compute render vars
      */
     u8 flags;
 };

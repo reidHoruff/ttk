@@ -15,6 +15,8 @@
 
 #define CHAR_HEIGHT 7
 #define CHAR_WIDTH 5
+#define GLYPH_HEIGHT 8
+#define GLYPH_WIDTH 7
 
 namespace gl {
   extern u16 color;
@@ -31,6 +33,13 @@ namespace gl {
 
   /* hgiher level graphic drawing */
   void draw_3d_rect(u16 x, u16 y, u16 w, u16 h);
+  void draw_glyph(u16 x, u16 y, u8 *a);
+
+  extern u8 UP_ARROW[7];
+  extern u8 DOWN_ARROW[7];
+  extern u8 LEFT_ARROW[7];
+  extern u8 RIGHT_ARROW[7];
+  extern u8 X[7];
 }
 
 #endif

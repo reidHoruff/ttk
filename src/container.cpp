@@ -10,24 +10,20 @@ Container::Container() : Widget() {
 }
 
 void Container::render() {
-  this->width();
-  this->height();
-  this->xposition();
-  this->yposition();
-
-  gl::set_color(BACKGROUND);
-  gl::fill_rect(this->rx, this->ry, this->rw, this->rh);
-
   for(u16 i = 0; i < this->num_children; i++) {
-    this->children[i]->render();
+    this->children[i]->request_render();
   }
 }
 
-
 void Container::unrender() {
-  for(u16 i = 0; i < this->num_children; i++) {
-    this->children[i]->unrender();
-  }
+  //log("unrender\n");
+  /* its probably faster, in most cases, to just
+   * erase the whole owning area instead of erasing
+   * each child; this could cause errors where the children arent 
+   * all rendered inside of the container bounds
+   */
+  gl::set_color(BACKGROUND);
+  gl::fill_rect(rx, ry, rw, rh);
 }
 
 Container* Container::add(Widget *w) {
