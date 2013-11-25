@@ -3,21 +3,25 @@
 #include "../container.h"
 #include "../ttk.h"
 
-Button::Button(const char *text) : Widget() {
+Button::Button(const char *text) {
   this->text = text;
 }
 
 void Button::render() {
-  u16 text_width = this->text_len() * 6;
+  u16 text_width = this->text_len() * (CHAR_WIDTH+1);
 
+  //background color
   gl::set_color(GREY);
-  gl::fill_rect(this->rx, this->ry, this->rw, this->rh);
+  gl::fill_rect(rx, ry, rw, rh);
 
+  //3d looking border; win98 esque
   gl::draw_3d_rect(rx, ry, rw, rh);
 
+  //draw text
   gl::set_color(BLACK);
-  gl::print_str(this->text, this->rx + (this->rw-text_width)/2, this->ry + (this->rh-CHAR_HEIGHT)/2);
+  gl::print_str(text, rx + (rw-text_width)/2, ry + (rh-CHAR_HEIGHT)/2);
 
+  //halo
   if (this->has_focus()) {
     gl::set_color(BLUE);
     gl::draw_rect(rx, ry, rw, rh);
@@ -26,7 +30,7 @@ void Button::render() {
 
 void Button::unrender() {
   gl::set_color(BACKGROUND);
-  gl::fill_rect(this->rx, this->ry, this->rw, this->rh);
+  gl::fill_rect(rx, ry, rw, rh);
 }
 
 u16 Button::calculate_width() {

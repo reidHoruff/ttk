@@ -33,22 +33,3 @@ Container* Container::add(Widget *w) {
   this->num_children += 1;
   return this;
 }
-
-u16 Container::child_height(Widget *child) {
-  return this->height();
-}
-
-u16 Container::child_width(Widget *child) {
-  return this->width();
-}
-
-u16 Container::child_xpos(Widget *child) {
-  return this->rx;
-}
-
-u16 Container::child_ypos(Widget *child) {
-  return this->ry;
-}
-
-u16 Container::calculate_width() { return 0; }
-u16 Container::calculate_height() { return 0; }

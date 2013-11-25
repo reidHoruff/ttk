@@ -121,7 +121,7 @@ int main (int argc, char *argv[])
   Container *c = new HorizontalContainer();
   c
     ->add(new Button("howdy"))
-    ->add(new Button("cowboy"))
+    ->add((new Button("cowboy"))->set_fill_container(true))
     ;
 
   root_container

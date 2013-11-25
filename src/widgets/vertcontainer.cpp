@@ -19,7 +19,9 @@ u16 VerticalContainer::child_xpos(Widget *child) {
   return this->rx + (this->rw - child->rw)/2;
 }
 
-/* button press handeling is for leafs */
+/* this looks complicated and can maybe be written a bit more
+ * eligantly but this handles arrow key navigation of leaf widgets.
+ * I'll explain how it works later... */
 bool VerticalContainer::button_press_up(ButtonPress bp, Widget *child) {
   bool can_move = true;
   u8 next_index = 0;
@@ -61,6 +63,9 @@ bool VerticalContainer::button_press_up(ButtonPress bp, Widget *child) {
   }
 }
 
+/* buton press is coming from somewhere above; decide which child
+ * is going to intercept this button event and let then deal with it
+ */
 void VerticalContainer::button_press_down(ButtonPress bp) {
   if (bp == UP) {
     this->children[this->num_children-1]->button_press_down(bp);

@@ -6,7 +6,9 @@
 #include "../container.h"
 
 class VerticalContainer : public Container {
+
   public:
+    /* for when the child asks it's parent/container how big/where it should go */
     virtual u16 child_height(Widget*); 
     virtual u16 child_width(Widget*); 
     virtual u16 child_xpos(Widget*); 
