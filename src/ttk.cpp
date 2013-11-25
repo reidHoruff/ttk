@@ -14,7 +14,6 @@ void ttk::button_press(ButtonPress bp) {
   } else {
     ttk::root->button_press_down(bp);
   }
-  screen::draw();
 }
 
 void ttk::set_root(Container* root) {

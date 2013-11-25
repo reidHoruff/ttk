@@ -13,21 +13,16 @@
 #include "../widgets/dropdown.h"
 
 /*
- * this is all hacky and copied form the internet.
+ * this is all hacky; 
  * im not really concerning myself with this currently as long as it works
  */
 
 GtkWidget *window, *darea;
-
 Container *root_container;
-
-ButtonPress bp;
-bool button_pressed = false;
 
 static void do_drawing(cairo_t *);
 
-static void tran_setup(GtkWidget *win)
-{        
+static void tran_setup(GtkWidget *win) {        
   GdkScreen *screen;
   GdkVisual *visual;
   
@@ -40,16 +35,14 @@ static void tran_setup(GtkWidget *win)
   }
 }
 
-static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data)
-{      
+static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data) {      
   do_drawing(cr);  
   return FALSE;
 }
 
 bool root_rendered = false;
 
-static void do_drawing(cairo_t *cr)
-{
+static void do_drawing(cairo_t *cr) {
   //log("do_draw()...\n");
   if (!root_rendered) {
     virt::cr = cr;
@@ -58,59 +51,46 @@ static void do_drawing(cairo_t *cr)
     root_rendered = true;
   }
 
-  if (button_pressed) {
-    ttk::button_press(bp);
-  }
+  screen::draw();
 
-  button_pressed = false;
   //log("do_draw() complete\n");
 }
 
-gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
-{
-  //printf("key: %d\n", event->keyval);
+gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
+  //log("key: %d\n", event->keyval);
 
   switch (event->keyval) {
     case 65362:
-//      printf("up\n");
-//      ttk::button_press(UP);
-      bp = UP;
+//      log("up\n");
+      ttk::button_press(UP);
       break;
 
     case 65364:
-//      printf("down\n");
-//      ttk::button_press(DOWN);
-      bp = DOWN;
+//      lof("down\n");
+      ttk::button_press(DOWN);
       break;
 
     case 65361:
-//      printf("left\n");
-//      ttk::button_press(LEFT);
-      bp = LEFT;
+//      log("left\n");
+      ttk::button_press(LEFT);
       break;
 
     case 65363:
-//      printf("right\n");
-//      ttk::button_press(RIGHT);
-      bp = RIGHT;
+//      log("right\n");
+      ttk::button_press(RIGHT);
       break;
 
     case 65293:
-//      printf("select\n");
-//      ttk::button_press(SELECT);
-      bp = SELECT;
+//      log("select\n");
+      ttk::button_press(SELECT);
       break;
   }
 
-  button_pressed = true;
-
   virt::refresh();
-
   return FALSE; 
 }
 
-int main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
   const char *dd_text[] = {
     "foo",
     "bar",
@@ -121,6 +101,7 @@ int main (int argc, char *argv[])
   Container *c = new HorizontalContainer();
   c
     ->add(new Button("howdy"))
+    ->add((new Button("cowboy"))->set_fill_container(true))
     ->add((new Button("cowboy"))->set_fill_container(true))
     ;
 

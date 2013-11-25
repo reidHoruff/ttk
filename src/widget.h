@@ -37,7 +37,9 @@ class Widget {
     virtual bool button_press_up(ButtonPress bp, Widget *child);
     virtual void button_press_down(ButtonPress bp);
 
-  /* getters / setters */
+  /* getters / setters;
+   * the setters should all return a self instance
+   * so that they can be linked together. */
   public:
     virtual bool visible();
     Widget* set_visible(bool v);
@@ -55,8 +57,7 @@ class Widget {
     Widget* set_need_compute_render_vars(bool f);
 
     /* called when you spawn a child and he
-     * return focus to you. typically a popup
-     */
+     * return focus to you. typically a popup */
     virtual void call_home(u16 data);
 
   protected:

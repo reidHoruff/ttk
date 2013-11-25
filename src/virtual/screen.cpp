@@ -4,7 +4,7 @@
 #include <cairo.h>
 
 u16 screen::height = 128;
-u16 screen::width = 128;
+u16 screen::width = 256;
 u16 screen::color = 0;
 
 #define SET_COLOR(color) \

@@ -11,7 +11,6 @@ class Button : public Widget {
 
   private:
     virtual void render();
-    virtual void unrender();
 
   public:
     /* your parent container will dictate your position;

@@ -2,6 +2,7 @@
 #include "container.h"
 #include "screen.h"
 #include "ttk.h"
+#include "graphics.h"
 #include <stdio.h>
 
 Widget::Widget() {
@@ -19,7 +20,8 @@ void Widget::render() {
 }
 
 void Widget::unrender() {
-  log("unrender needs to be overwritten\n");
+  gl::set_color(BACKGROUND);
+  gl::fill_rect(rx, ry, rw, rh);
 }
 
 void Widget::update() {

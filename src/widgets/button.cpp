@@ -28,11 +28,6 @@ void Button::render() {
   }
 }
 
-void Button::unrender() {
-  gl::set_color(BACKGROUND);
-  gl::fill_rect(rx, ry, rw, rh);
-}
-
 u16 Button::calculate_width() {
   return (this->text_len()*6) + (BUTTON_V_MARGIN*2) + 2;
 }

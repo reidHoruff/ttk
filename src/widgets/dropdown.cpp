@@ -34,11 +34,6 @@ void Dropdown::render() {
   }
 }
 
-void Dropdown::unrender() {
-  gl::set_color(BACKGROUND);
-  gl::fill_rect(rx, ry, rw, rh);
-}
-
 u16 Dropdown::calculate_width() {
   return (this->text_len()*6) + (SELECT_H_MARGIN*2) + 2;
 }

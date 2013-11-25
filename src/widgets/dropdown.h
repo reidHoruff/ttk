@@ -11,7 +11,6 @@ class Dropdown : public Widget {
   public:
     Dropdown(const char **options, u8 l);
     virtual void render();
-    virtual void unrender();
 
     virtual u16 calculate_height();
     virtual u16 calculate_width();
