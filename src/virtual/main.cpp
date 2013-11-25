@@ -61,21 +61,25 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 
   switch (event->keyval) {
     case 65362:
+    case 107:
 //      log("up\n");
       ttk::button_press(UP);
       break;
 
     case 65364:
+    case 106:
 //      lof("down\n");
       ttk::button_press(DOWN);
       break;
 
     case 65361:
+    case 104:
 //      log("left\n");
       ttk::button_press(LEFT);
       break;
 
     case 65363:
+    case 108:
 //      log("right\n");
       ttk::button_press(RIGHT);
       break;
