@@ -372,6 +372,12 @@ void gl::draw_glyph(u16 x, u16 y, u8 *a) {
   }
 }
 
+u16 gl::str_width(const char *str) {
+  u8 len = 0;
+  while (str[len]) {len++;}
+  return len*6;
+}
+
 u8 gl::UP_ARROW[] = {
   0b00001000,
   0b00001100,

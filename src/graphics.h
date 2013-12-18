@@ -35,6 +35,10 @@ namespace gl {
   void draw_3d_rect(u16 x, u16 y, u16 w, u16 h);
   void draw_glyph(u16 x, u16 y, u8 *a);
 
+
+  /* helpers */
+  u16 str_width(const char *str);
+
   extern u8 UP_ARROW[7];
   extern u8 DOWN_ARROW[7];
   extern u8 LEFT_ARROW[7];

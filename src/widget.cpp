@@ -10,6 +10,11 @@ Widget::Widget() {
   this->index = 0;
   this->flags = 0;
 
+  this->rx = 0;
+  this->ry = 0;
+  this->rw = 0;
+  this->rh = 0;
+
   this->set_visible(true);
   this->set_enabled(true);
   this->set_need_compute_render_vars(true);

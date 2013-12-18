@@ -7,7 +7,7 @@ AVRDUDE = avrdude
 VIRT = virtual/main.cpp virtual/virtual.cpp virtual/screen.cpp
 VIRT_BIN_NAME = ttk_vir
 
-WIDGETS = widgets/button.cpp widgets/vertcontainer.cpp widgets/horcontainer.cpp widgets/dropdown.cpp widgets/popupmenu.cpp
+WIDGETS = widgets/button.cpp widgets/vertcontainer.cpp widgets/horcontainer.cpp widgets/dropdown.cpp widgets/popupmenu.cpp widgets/verttabs.cpp
 CORE = graphics.cpp widget.cpp ttk.cpp container.cpp
 
 all:
